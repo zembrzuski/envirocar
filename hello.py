@@ -35,6 +35,17 @@ def compute_duration_of_a_track(a_track):
     return total_minutes
 
 
+# TODO put it in a service.
+def extract_speed(a_track):
+    features_from_a_track = a_track['features']
+    speeds = list(map(lambda feature: feature['properties']['phenomenons']['GPS Speed'], features_from_a_track))
+
+    if speeds[0]['unit'] != 'km/h':
+        print(speeds[0]['unit'])
+        raise Exception
+
+    return list(map(lambda x: x['value'], speeds))
+
 
 def write_list_as_simple_csv(the_list, output_file_path):
     with open(output_file_path, "w") as text_file:
@@ -50,8 +61,16 @@ if __name__ == '__main__':
     #list(map(lambda x: write_to_file(x), tracks_ids))
     #print("deu deu deu")
 
-    all_tracks = list(map(lambda x: read_from_file_as_json(x), tracks_ids))
-    all_intervals = list(map(lambda track: compute_duration_of_a_track(track), all_tracks))
-    print(all_intervals)
+    #all_tracks = list(map(lambda x: read_from_file_as_json(x), tracks_ids))
+    #all_intervals = list(map(lambda track: compute_duration_of_a_track(track), all_tracks))
+    #print(all_intervals)
 
-    write_list_as_simple_csv(all_intervals, 'data_integration/duration.csv')
+    #write_list_as_simple_csv(all_intervals, 'data_integration/duration.csv')
+
+    all_tracks = list(map(lambda x: read_from_file_as_json(x), [tracks_ids[0]]))
+    first_track = all_tracks[0]
+    speeds = extract_speed(first_track)
+
+    print(speeds)
+
+
