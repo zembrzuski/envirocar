@@ -21,10 +21,16 @@ tracks_ids = ["58fa0540268d1b08a4497422", "58fa053e268d1b08a449733a", "58f99cd72
 
 all_tracks = list(map(lambda x: filesystem_dao.read_from_file_as_json(x), tracks_ids))
 
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[10]))
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[20]))
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[30]))
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[40]))
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[50]))
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[60]))
-line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[70]))
+position = generic_manipulation.extract_position(all_tracks[80])
+algo = list(map(lambda x: {'lat': x[1], 'lng': x[0]}, position))
+print(algo)
+
+
+
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[10]))
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[20]))
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[30]))
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[40]))
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[50]))
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[60]))
+#line_chart.line_plotting_two_dimensions(generic_manipulation.extract_position(all_tracks[70]))
