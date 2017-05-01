@@ -2,7 +2,7 @@ import json
 
 
 def read_from_file_as_json(track_id):
-    return json.loads(open("../data_input/{}.json".format(track_id)).read())
+    return json.loads(open("../../data_input/{}.json".format(track_id)).read())
 
 
 def write_list_as_simple_csv(the_list, output_file_path):
