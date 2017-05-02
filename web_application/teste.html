@@ -14,7 +14,9 @@ function initMap() {
 
     var flightPlanCoordinates;
 
+    console.log('aaa');
     $.get('http://127.0.0.1:5000/find_track/' + track_id, function(data) {
+        console.log('bbb');
         resp = JSON.parse(data);
         map = new google.maps.Map(document.getElementById('map'), {
           center: resp['center'],
@@ -43,7 +45,7 @@ function initMap() {
        * element that contains the map. */
       #map {
         height: 100%;
-        width: 100%;
+        width: 80%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -51,10 +53,29 @@ function initMap() {
         margin: 0;
         padding: 0;
       }
+      #fixed-left {
+         position:absolute;
+         right:0px;
+         top  :0px;
+         background-color: #cdcdcd;
+         width: 20%;
+         height:100%
+      }
     </style>
   </head>
   <body>
+
     <div id="map"></div>
+    <div id="fixed-left">
+      <table cellspacing="0" cellpadding="0" width="100%">
+        <tr>
+          <td style="background-color:blue">xoxoxo</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.js"
