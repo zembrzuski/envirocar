@@ -7,8 +7,8 @@ import numpy as np
 app = Flask(__name__)
 
 
-@app.route('/')
-def send_js():
+@app.route('/map/<track>')
+def send_js(track):
     return send_file('teste.html')
 
 
@@ -25,7 +25,13 @@ def find_track(track):
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))
 
-    return "oi"
+    return json.dumps({
+        'center': {
+            'lat': lat_center,
+            'lng': lng_center
+        },
+        'coordinates': coordinates
+    })
 
 
 if __name__ == "__main__":

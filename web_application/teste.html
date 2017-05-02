@@ -10,44 +10,30 @@
 var map;
 
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 0, lng: 0},
-      zoom: 7,
-      mapTypeId: 'terrain'
-    });
-}
+    var track_id = location.pathname.split("/map/")[1];
 
-function do_the_plotting(track_id) {
-
-    /*
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 51.13344993777271, lng: 2.303557851685234},
-      zoom: 7,
-      mapTypeId: 'terrain'
-    });
-    */
+    var flightPlanCoordinates;
 
     $.get('http://127.0.0.1:5000/find_track/' + track_id, function(data) {
-        alert('ae');
-        console.log(data);
+        resp = JSON.parse(data);
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: resp['center'],
+          zoom: 12,
+          mapTypeId: 'terrain'
+        });
+
+        flightPlanCoordinates = resp['coordinates']
+
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
     });
-
-    var flightPlanCoordinates = [
-        {lat: 37.772, lng: -122.214, strokeColor: '#0000FF'},
-        {lat: 21.291, lng: -157.821},
-        {lat: -18.142, lng: 178.431},
-        {lat: -27.467, lng: 153.027}
-    ];
-
-    var flightPath = new google.maps.Polyline({
-        path: flightPlanCoordinates,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-    });
-
-    flightPath.setMap(map);
 }
 
 </script>
@@ -69,17 +55,18 @@ function do_the_plotting(track_id) {
   </head>
   <body>
     <div id="map"></div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&callback=initMap"
     async defer></script>
 
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&libraries=drawing">
     </script>
-
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.js"
-      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-      crossorigin="anonymous"></script>
 
   </body>
 </html>
