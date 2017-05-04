@@ -24,17 +24,28 @@ function initMap() {
           mapTypeId: 'terrain'
         });
 
-        flightPlanCoordinates = resp['coordinates']
+        coordinates = resp['coordinates'];
+        first_part = coordinates.slice(0, coordinates.length/2);
+        second_part = coordinates.slice(coordinates.length/2-1, coordinates.length+1);
 
-        var flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
+        var flightPath_1 = new google.maps.Polyline({
+            path: first_part,
             geodesic: true,
-            strokeColor: '#FF0000',
+            strokeColor: '#FFCC00',
             strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeWeight: 4
         });
 
-        flightPath.setMap(map);
+        var flightPath_2 = new google.maps.Polyline({
+            path: second_part,
+            geodesic: true,
+            strokeColor: '#FFCCFF',
+            strokeOpacity: 1.0,
+            strokeWeight: 4
+        });
+
+        flightPath_1.setMap(map);
+        flightPath_2.setMap(map);
     });
 }
 
@@ -74,8 +85,6 @@ function initMap() {
         </tr>
       </table>
     </div>
-
-
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.js"
