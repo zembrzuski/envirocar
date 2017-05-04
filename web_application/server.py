@@ -21,6 +21,10 @@ def find_track(track):
 
     coords = list(map(lambda x: x['geometry']['coordinates'], features))
     coordinates = list(map(lambda x: {'lng': x[0], 'lat': x[1]}, coords))
+    phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
+    velocidades = list(map(lambda x: x['Speed']['value'], phenomenons))
+    velocidade_media = np.mean(velocidades)
+    velocidade_maxima = np.max(velocidades)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))
@@ -30,7 +34,10 @@ def find_track(track):
             'lat': lat_center,
             'lng': lng_center
         },
-        'coordinates': coordinates
+        'coordinates': coordinates,
+        'phenomenons': phenomenons,
+        'vel-media': velocidade_media,
+        'vel-max': velocidade_maxima,
     })
 
 
