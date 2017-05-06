@@ -7,6 +7,12 @@ import numpy as np
 app = Flask(__name__)
 
 
+
+@app.route('/get_file/<file>')
+def get_file(file):
+    return send_file(file)
+
+
 @app.route('/map/<track>')
 def send_js(track):
     return send_file('teste.html')
