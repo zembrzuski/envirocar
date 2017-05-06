@@ -2,8 +2,8 @@ import requests
 import json
 import numpy as np
 from web_application.service.distance_functions import compute_distance
-from datetime import datetime
 from dateutil.parser import parse
+
 
 def create_dict_to_phenomenon(phenomenons, attribute):
     try:
@@ -28,8 +28,6 @@ def create_dict_to_phenomenon(phenomenons, attribute):
         }
 
 
-
-
 def retrieve_by_id(track):
     resp = requests.get('http://localhost:9200/envirocar/group/{}'.format(track))
     loaded = json.loads(resp.content.decode('utf-8'))
@@ -40,8 +38,6 @@ def retrieve_by_id(track):
     coordinates = list(map(lambda x: {'lng': x[0], 'lat': x[1]}, coords))
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
-
-
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))

@@ -22,27 +22,6 @@ function initMap() {
         console.log(dashboard_string);
         $("div.main-dashboard").html(dashboard_string);
 
-
-        /*
-        // colocar tb o tipo de gasosa, para paoder comparar com o co2.
-        - graficozinhos relacionando cada uma das coisas visualizadas no mapa.
-        Rpm
-        Engine Load
-        time inicio
-        time fim
-        --- procurar, tb, aqueles heatmaps.
-
-        partes mais de inteligencia.
-            - dada uma rota, quero saber quais os carros que passaram por ali.
-            - dado um ponto (exemplo, porto alegre), saber quais carros
-              passaram por ali.
-            - tentar identificar quais são os usuários das rotas.s
-
-        -- tb posso pegar os dados do cara para ver se ele está
-           acima ou abaixo do limite de velocidade.
-        */
-
-
         for (i = 0 ; i < coordinates.length-1; i++) {
           a = coordinates[i];
           b = coordinates[i+1];
