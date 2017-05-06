@@ -18,6 +18,8 @@ function initMap() {
 
         vel_max = resp['vel']['max'];
 
+        // colocar tb o tipo de gasosa, para paoder comparar com o co2.
+
         dashboard_string =
             "velocidade:" +
             "<ul>" +
@@ -49,10 +51,10 @@ function initMap() {
 
             "deslocamento:" +
             "<ul>" +
-            "<li>inicio: </li>" +
-            "<li>fim: </li>" +
-            "<li>duracao: </li>" +
-            "<li>vm: </li>" +
+            "<li>inicio: " + resp['tempo-inicio'] + "</li>" +
+            "<li>fim: " + resp['tempo-fim'] + "</li>" +
+            "<li>duracao: " + resp['duracao'] + "</li>" +
+            "<li>vm: " + resp['vm'].toFixed(2) + "km/h</li>" +
             "<li>distancia total: " + resp['total-distance'].toFixed(2) + "km </li>" +
             "<li>distancia linha reta: " + resp['linha-reta-distance'].toFixed(2) + "km </li>" +
             "</ul> <br/>"
