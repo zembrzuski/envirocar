@@ -45,8 +45,17 @@ function initMap() {
             "<li>maxima: " + resp['engine-load']['max'].toFixed(2) + " " + resp['engine-load']['unit'] + "</li>" +
             "<li>media: "  + resp['engine-load']['med'].toFixed(2) + " " + resp['engine-load']['unit'] + "</li>" +
             "<li>minima: " + resp['engine-load']['min'].toFixed(2) + " " + resp['engine-load']['unit'] + "</li>" +
-            "</ul> <br/>"
+            "</ul> <br/>" +
 
+            "deslocamento:" +
+            "<ul>" +
+            "<li>inicio: </li>" +
+            "<li>fim: </li>" +
+            "<li>duracao: </li>" +
+            "<li>vm: </li>" +
+            "<li>distancia total: " + resp['total-distance'].toFixed(2) + "km </li>" +
+            "<li>distancia linha reta: " + resp['linha-reta-distance'].toFixed(2) + "km </li>" +
+            "</ul> <br/>"
         ;
 
         $("div.main-dashboard").html(dashboard_string);
@@ -66,6 +75,9 @@ function initMap() {
             - dado um ponto (exemplo, porto alegre), saber quais carros
               passaram por ali.
             - tentar identificar quais são os usuários das rotas.s
+
+        -- tb posso pegar os dados do cara para ver se ele está
+           acima ou abaixo do limite de velocidade.
         */
 
 

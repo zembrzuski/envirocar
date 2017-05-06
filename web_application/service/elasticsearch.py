@@ -1,8 +1,7 @@
 import requests
 import json
 import numpy as np
-
-
+from web_application.service.distance_functions import compute_distance
 
 def create_dict_to_phenomenon(phenomenons, attribute):
     try:
@@ -25,6 +24,8 @@ def create_dict_to_phenomenon(phenomenons, attribute):
             'min': 0,
             'unit': "NA",
         }
+
+
 
 
 def retrieve_by_id(track):
@@ -50,5 +51,7 @@ def retrieve_by_id(track):
         'vel': create_dict_to_phenomenon(phenomenons, 'Speed'),
         'co2': create_dict_to_phenomenon(phenomenons, 'CO2'),
         'rpm': create_dict_to_phenomenon(phenomenons, 'Rpm'),
-        'engine-load': create_dict_to_phenomenon(phenomenons, 'Engine Load')
+        'engine-load': create_dict_to_phenomenon(phenomenons, 'Engine Load'),
+        'total-distance': compute_distance(coordinates),
+        'linha-reta-distance': compute_distance([coordinates[0], coordinates[-1]])
     })
