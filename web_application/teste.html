@@ -21,14 +21,21 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        font-family: "ubuntu";
       }
       #fixed-left {
          position:absolute;
          right:0px;
          top  :0px;
-         background-color: #cdcdcd;
+         background-color: white;
          width: 20%;
          height:100%
+      }
+
+      .main-dashboard {
+        background-color: white;
+        font-size: 13px;
+        padding: 5px;
       }
     </style>
   </head>
@@ -38,23 +45,18 @@
     <div id="fixed-left">
       <table cellspacing="0" cellpadding="0" width="100%">
         <tr>
-          <td style="background-color:blue">xoxoxo</td>
+          <td>
+            <div class="main-dashboard">
+            </div>
+          </td>
           <td></td>
         </tr>
       </table>
     </div>
 
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.js"
-      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-      crossorigin="anonymous"></script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&callback=initMap"
-    async defer></script>
-
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&libraries=drawing">
-    </script>
+    <script src="http://127.0.0.1:5000/get_file/jquery.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&callback=initMap" async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&libraries=drawing"></script>
 
   </body>
 </html>
