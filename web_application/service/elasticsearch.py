@@ -2,7 +2,9 @@ import requests
 import json
 import numpy as np
 import web_application.service.distance_functions as distance_functions
-import  web_application.service.speed_limit_service as speed_limit_service
+# TODO remove this service.
+import web_application.service.speed_limit_service as speed_limit_service
+import web_application.service.speed_limit_service_2 as speed_limit_service_2
 from dateutil.parser import parse
 
 
@@ -40,8 +42,7 @@ def retrieve_by_id(track):
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
-    # CAUTION: I am changing the coordinates variable in this method!
-    speed_limit_service.recursive_enricher_speed_limit(coordinates, 0, len(coordinates))
+    #speed_limit_service_2.get_speed_limit_for_path(coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))
