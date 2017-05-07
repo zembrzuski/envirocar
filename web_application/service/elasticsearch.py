@@ -2,9 +2,7 @@ import requests
 import json
 import numpy as np
 import web_application.service.distance_functions as distance_functions
-# TODO remove this service.
-import web_application.service.speed_limit_service as speed_limit_service
-import web_application.service.speed_limit_service_2 as speed_limit_service_2
+import web_application.service.speed_limit_openstreetmap as openstreetmap_servicce
 from dateutil.parser import parse
 
 
@@ -43,6 +41,7 @@ def retrieve_by_id(track):
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
     #speed_limit_service_2.get_speed_limit_for_path(coordinates)
+    openstreetmap_servicce.naosei(coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))

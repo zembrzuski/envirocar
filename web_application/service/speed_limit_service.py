@@ -1,4 +1,11 @@
 
+"""
+
+Maybe this code will be useful someday...
+But nowadays, it is.
+
+"""
+
 def get_street(coordinate):
     # get coordinate on google maps.
     # persist it on elastic-search.
