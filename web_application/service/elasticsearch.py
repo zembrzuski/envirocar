@@ -1,7 +1,8 @@
 import requests
 import json
 import numpy as np
-from web_application.service.distance_functions import compute_distance
+import web_application.service.distance_functions as distance_functions
+import  web_application.service.speed_limit_service as speed_limit_service
 from dateutil.parser import parse
 
 
@@ -39,6 +40,9 @@ def retrieve_by_id(track):
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
+    # CAUTION: I am changing the coordinates variable in this method!
+    speed_limit_service.recursive_enricher_speed_limit(coordinates, 0, len(coordinates))
+
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))
 
@@ -57,10 +61,10 @@ def retrieve_by_id(track):
         'co2': create_dict_to_phenomenon(phenomenons, 'CO2'),
         'rpm': create_dict_to_phenomenon(phenomenons, 'Rpm'),
         'engine-load': create_dict_to_phenomenon(phenomenons, 'Engine Load'),
-        'total-distance': compute_distance(coordinates),
-        'linha-reta-distance': compute_distance([coordinates[0], coordinates[-1]]),
+        'total-distance': distance_functions.compute_distance(coordinates),
+        'linha-reta-distance': distance_functions.compute_distance([coordinates[0], coordinates[-1]]),
         'tempo-inicio': str(inicio),
         'tempo-fim': str(fim),
         'duracao': str(duration),
-        'vm': compute_distance(coordinates)/(duration.seconds/60/60),
+        'vm': distance_functions.compute_distance(coordinates)/(duration.seconds/60/60),
     })
