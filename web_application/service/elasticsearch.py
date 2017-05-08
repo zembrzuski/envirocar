@@ -40,7 +40,6 @@ def retrieve_by_id(track):
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
-    #speed_limit_service_2.get_speed_limit_for_path(coordinates)
     openstreetmap_servicce.do_many_things(coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
