@@ -14,9 +14,11 @@ def naosei(coordinates):
     latitudes = list(map(lambda x: x['lat'], coordinates))
     longitudes = list(map(lambda x: x['lng'], coordinates))
 
+    # essa ideia de separar em quartis pareceu boa.
+    # devo continuar com ela.
     left = np.min(longitudes)
-    right = np.mean(longitudes)
-    top = np.mean(latitudes)
+    right = np.percentile(longitudes, .25)
+    top = np.percentile(latitudes, .25)
     bottom = np.min(latitudes)
 
     req_url = URL.format(left, bottom, right, top)
