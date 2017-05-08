@@ -3,6 +3,7 @@ import json
 import numpy as np
 import web_application.service.distance_functions as distance_functions
 import web_application.service.speed_limit_openstreetmap as openstreetmap_servicce
+import web_application.service.address_service.all_streets_route_interpolator as route_interpolator
 from dateutil.parser import parse
 
 
@@ -40,7 +41,8 @@ def retrieve_by_id(track):
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
-    openstreetmap_servicce.do_many_things(coordinates)
+    #openstreetmap_servicce.do_many_things(coordinates)
+    route_interpolator.get_route(coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))
