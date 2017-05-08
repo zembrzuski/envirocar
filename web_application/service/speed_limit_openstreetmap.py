@@ -26,7 +26,9 @@ def do_many_things(coordinates):
     #my_dict = xmltodict.parse(payload)
     ways_information = parser.do_the_parsing(payload)
 
-
+    for xoxo in ways_information:
+        if 'maxspeed' in xoxo:
+            print(xoxo['maxspeed'])
 
 
 
