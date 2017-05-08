@@ -16,10 +16,6 @@ def flatten(x, flatted_list):
 
 
 def get_route_recursive(coordinates, begin_index, end_index, begin_addr, end_addr):
-    """
-    Given many points, try to discover all streets that the user passed by
-    """
-
     print("ae " + str(begin_index) + " " + str(end_index))
 
     if begin_addr:
@@ -43,6 +39,10 @@ def get_route_recursive(coordinates, begin_index, end_index, begin_addr, end_add
 
 
 def get_route(coordinates):
+    """
+    This is a terrible implementation of an algorithm to retrieve all the
+    streets that a car passed by in a given track.
+    """
     r1 = get_route_recursive(coordinates, 0, int(len(coordinates) / 2), None, None)
     r2 = get_route_recursive(coordinates, int((len(coordinates) - 1) / 2), int(len(coordinates) - 1), None, None)
 

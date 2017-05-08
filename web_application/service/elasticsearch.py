@@ -1,10 +1,11 @@
-import requests
 import json
+
 import numpy as np
-import web_application.service.distance_functions as distance_functions
-import web_application.service.speed_limit_openstreetmap as openstreetmap_servicce
-import web_application.service.address_service.all_streets_route_interpolator as route_interpolator
+import requests
 from dateutil.parser import parse
+
+import web_application.service.address_service.all_streets_route_interpolator as route_interpolator
+import web_application.service.distance_functions as distance_functions
 
 
 def create_dict_to_phenomenon(phenomenons, attribute):

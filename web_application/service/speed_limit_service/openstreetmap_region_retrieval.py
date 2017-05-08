@@ -1,6 +1,7 @@
 import numpy as np
 import requests
-import web_application.service.openstreetmap_parser as parser
+
+import web_application.service.speed_limit_service.openstreetmap_parser as parser
 
 #
 # http://wiki.openstreetmap.org/wiki/Downloading_data#Construct_a_URL_for_the_HTTP_API
