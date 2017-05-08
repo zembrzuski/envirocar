@@ -6,7 +6,7 @@ from dateutil.parser import parse
 
 import web_application.service.address_service.all_streets_route_interpolator as route_interpolator
 import web_application.service.distance_functions as distance_functions
-
+import web_application.service.speed_limit_service.openstreetmap_region_retrieval as region_retrieval
 
 def create_dict_to_phenomenon(phenomenons, attribute):
     try:
@@ -43,7 +43,8 @@ def retrieve_by_id(track):
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
     #openstreetmap_servicce.do_many_things(coordinates)
-    route_interpolator.get_route(coordinates)
+    ways = region_retrieval.retrieve_region_ways(coordinates)
+    trace = route_interpolator.get_route(coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))

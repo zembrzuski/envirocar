@@ -1,5 +1,5 @@
 import web_application.service.address_service.address_retrieval_google_maps as gmaps
-
+import copy
 
 """
 This is a terrible implementation of an algorithm to retrieve all the
@@ -29,7 +29,9 @@ def get_route_recursive(coordinates, begin_index, end_index, begin_addr, end_add
         add2 = gmaps.retrieve_address_by_coordinate(coordinates[end_index]['lat'], coordinates[end_index]['lng'])
 
     if add1[0].get('long_name') == add2[0].get('long_name') or begin_index+1==end_index:
-        return [add1]
+        add_with_index = copy.deepcopy(add1)
+        add_with_index[0]['index'] = begin_index
+        return [add_with_index]
     else:
         middle = int((begin_index + end_index) / 2)
         r1 = get_route_recursive(coordinates, begin_index, middle, add1, None)
@@ -43,12 +45,13 @@ def get_route(coordinates):
     This is a terrible implementation of an algorithm to retrieve all the
     streets that a car passed by in a given track.
     """
+
     r1 = get_route_recursive(coordinates, 0, int(len(coordinates) / 2), None, None)
     r2 = get_route_recursive(coordinates, int((len(coordinates) - 1) / 2), int(len(coordinates) - 1), None, None)
 
     r1.append(r2)
 
-    trace = list(map(lambda x: x['long_name'], list(filter(lambda x: isinstance(x, dict), flatten(r1, [])))))
+    trace = list(filter(lambda x: isinstance(x, dict), flatten(r1, [])))
 
     print("\n".join(trace))
 
