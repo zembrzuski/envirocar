@@ -1,7 +1,8 @@
 import numpy as np
-import requests
+from threading import Thread
 
 import web_application.service.speed_limit_service.openstreetmap_parser as parser
+import web_application.service.speed_limit_service.openstreetmap_requester as openstreetmap_requester
 
 #
 # http://wiki.openstreetmap.org/wiki/Downloading_data#Construct_a_URL_for_the_HTTP_API
@@ -49,15 +50,32 @@ def create_regions(coordinates):
     return [reg1_top_left, reg2_top_right, reg3_bottom_left, reg4_bottom_right]
 
 
+def threaded_function(region, wayss):
+    payload = openstreetmap_requester.do_request(URL2.format(region))
+    ways_information = parser.do_the_parsing(payload)
+    wayss.append(ways_information)
+
+
 def retrieve_region_ways(coordinates):
     regions = create_regions(coordinates)
 
     wayss = []
 
-    for region in regions:
-        response = requests.get(URL2.format(region))
-        payload = response.content.decode('utf-8')
-        ways_information = parser.do_the_parsing(payload)
-        wayss.append(ways_information)
+    thread0 = Thread(target=threaded_function, args=(regions[0], wayss))
+    thread0.start()
+
+    thread1 = Thread(target=threaded_function, args=(regions[1], wayss))
+    thread1.start()
+
+    thread2 = Thread(target=threaded_function, args=(regions[2], wayss))
+    thread2.start()
+
+    thread3 = Thread(target=threaded_function, args=(regions[3], wayss))
+    thread3.start()
+
+    thread0.join()
+    thread1.join()
+    thread2.join()
+    thread3.join()
 
     return wayss

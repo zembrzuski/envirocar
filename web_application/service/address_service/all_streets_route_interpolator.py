@@ -53,6 +53,4 @@ def get_route(coordinates):
 
     trace = list(filter(lambda x: isinstance(x, dict), flatten(r1, [])))
 
-    print("\n".join(trace))
-
     return trace
