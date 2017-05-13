@@ -1,3 +1,4 @@
+import redis
 import json
 
 import numpy as np
@@ -34,6 +35,13 @@ def create_dict_to_phenomenon(phenomenons, attribute):
 
 
 def retrieve_by_id(track):
+    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    cached_payload = r.get(track)
+
+    if cached_payload:
+        print('returning cached info')
+        return cached_payload
+
     resp = requests.get('http://localhost:9200/envirocar/group/{}'.format(track))
     loaded = json.loads(resp.content.decode('utf-8'))
 
@@ -57,7 +65,7 @@ def retrieve_by_id(track):
     fim = timestamps[-1]
     duration = timestamps[-1] - timestamps[0]
 
-    return json.dumps({
+    to_return = json.dumps({
         'center': {
             'lat': lat_center,
             'lng': lng_center
@@ -75,3 +83,6 @@ def retrieve_by_id(track):
         'duracao': str(duration),
         'vm': distance_functions.compute_distance(coordinates)/(duration.seconds/60/60),
     })
+
+    r.set(track, to_return)
+    return to_return
