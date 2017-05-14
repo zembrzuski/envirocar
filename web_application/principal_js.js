@@ -26,8 +26,21 @@ function initMap() {
           a = coordinates[i];
           b = coordinates[i+1];
 
-          var vel = phenomenons[i]['Speed']['value'];
-          kol = getColorForPercentage(1-vel/vel_max);
+          var maxspeed = parseFloat(coordinates[i]['trace']['maxspeed']);
+          var vel = parseFloat(phenomenons[i]['Speed']['value']);
+
+          //kol = getColorForPercentage(1-vel/vel_max);
+          kol = 'black';
+
+          if (vel > maxspeed + maxspeed * 5/100) {
+            kol = 'red';
+          } else {
+            kol = 'blue';
+          }
+
+          if (maxspeed == 0) {
+            kol = 'yellow';
+          }
 
           var flightPath_1 = new google.maps.Polyline({
             path: [a, b],
