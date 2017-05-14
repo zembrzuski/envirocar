@@ -14,40 +14,59 @@ URL2 = "http://api.openstreetmap.org/api/0.6/map?bbox={}"
 
 
 def create_regions(coordinates):
+
+    # todo - diminuir a qtd de regioes
+
     latitudes = list(map(lambda x: x['lat'], coordinates))
     longitudes = list(map(lambda x: x['lng'], coordinates))
 
-    # TODO separar em 4 lugares esse cara.
-    left1 = np.min(longitudes)
-    right1 = np.mean(longitudes)
+    left1 = np.percentile(longitudes, 0)
+    right1 = np.percentile(longitudes, .333)
     top1 = np.mean(latitudes)
     bottom1 = np.min(latitudes)
     r1_string = str(left1)+","+str(bottom1)+","+str(right1)+","+str(top1)
 
-    left2 = np.mean(longitudes)
-    right2 = np.max(longitudes)
+    left2 = np.percentile(longitudes, .333)
+    right2 = np.percentile(longitudes, .666)
     top2 = np.mean(latitudes)
     bottom2 = np.min(latitudes)
-    r2_string = str(left2) + "," + str(bottom2) + "," + str(right2) + "," + str(top2)
+    r2_string = str(left2)+","+str(bottom2)+","+str(right2)+","+str(top2)
 
-    left3 = np.min(longitudes)
-    right3 = np.mean(longitudes)
-    top3 = np.max(latitudes)
-    bottom3 = np.mean(latitudes)
-    r3_string = str(left3) + "," + str(bottom3) + "," + str(right3) + "," + str(top3)
+    left3 = np.percentile(longitudes, .666)
+    right3 = np.percentile(longitudes, 1)
+    top3 = np.mean(latitudes)
+    bottom3 = np.min(latitudes)
+    r3_string = str(left3)+","+str(bottom3)+","+str(right3)+","+str(top3)
 
-    left4 = np.mean(longitudes)
-    right4 = np.max(longitudes)
-    top4 = np.max(latitudes)
-    bottom4 = np.mean(latitudes)
-    r4_string = str(left4) + "," + str(bottom4) + "," + str(right4) + "," + str(top4)
 
-    reg1_top_left     = r1_string
-    reg2_top_right    = r2_string
-    reg3_bottom_left  = r3_string
-    reg4_bottom_right = r4_string
 
-    return [reg1_top_left, reg2_top_right, reg3_bottom_left, reg4_bottom_right]
+
+
+
+
+
+
+
+
+    left5 = np.percentile(longitudes, 0)
+    right5 = np.percentile(longitudes, .333)
+    top5 = np.max(latitudes)
+    bottom5 = np.mean(latitudes)
+    r5_string = str(left5)+","+str(bottom5)+","+str(right5)+","+str(top5)
+
+    left6 = np.percentile(longitudes, .333)
+    right6 = np.percentile(longitudes, .666)
+    top6 = np.max(latitudes)
+    bottom6 = np.mean(latitudes)
+    r6_string = str(left6)+","+str(bottom6)+","+str(right6)+","+str(top6)
+
+    left7 = np.percentile(longitudes, .666)
+    right7 = np.percentile(longitudes, 1)
+    top7 = np.max(latitudes)
+    bottom7 = np.mean(latitudes)
+    r7_string = str(left7)+","+str(bottom7)+","+str(right7)+","+str(top7)
+
+    return [r1_string, r2_string, r3_string, r5_string, r6_string, r7_string]
 
 
 def threaded_function(region, wayss):
@@ -73,9 +92,17 @@ def retrieve_region_ways(coordinates):
     thread3 = Thread(target=threaded_function, args=(regions[3], wayss))
     thread3.start()
 
+    thread4 = Thread(target=threaded_function, args=(regions[4], wayss))
+    thread4.start()
+
+    thread5 = Thread(target=threaded_function, args=(regions[5], wayss))
+    thread5.start()
+
     thread0.join()
     thread1.join()
     thread2.join()
     thread3.join()
+    thread4.join()
+    thread5.join()
 
     return wayss
