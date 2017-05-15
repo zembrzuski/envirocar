@@ -51,6 +51,7 @@ def get_route(coordinates):
 
     r1.append(r2)
 
-    trace = list(filter(lambda x: isinstance(x, dict), flatten(r1, [])))
+    flatted = flatten(r1, [])
+    trace = list(filter(lambda x: isinstance(x, dict), flatted))
 
     return trace

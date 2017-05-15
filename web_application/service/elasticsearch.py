@@ -38,9 +38,9 @@ def retrieve_by_id(track):
     r = redis.StrictRedis(host='localhost', port=6379, db=0)
     cached_payload = r.get(track)
 
-    if cached_payload:
-        print('returning cached info')
-        return cached_payload
+    #if cached_payload:
+    #    print('returning cached info')
+    #    return cached_payload
 
     resp = requests.get('http://localhost:9200/envirocar/group/{}'.format(track))
     loaded = json.loads(resp.content.decode('utf-8'))
@@ -54,6 +54,11 @@ def retrieve_by_id(track):
 
     ways = region_retrieval.retrieve_region_ways(coordinates)
     trace = route_interpolator.get_route(coordinates)
+
+
+
+
+
 
     enriched_trace = enrich_trace_with_speed_limit.execute(trace, ways)
     coordinates = enrich_coords_with_speed_limit.enrich(enriched_trace, coordinates)

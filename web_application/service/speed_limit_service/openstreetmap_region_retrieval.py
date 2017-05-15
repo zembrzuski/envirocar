@@ -15,8 +15,6 @@ URL2 = "http://api.openstreetmap.org/api/0.6/map?bbox={}"
 
 def create_regions(coordinates):
 
-    # todo - diminuir a qtd de regioes
-
     latitudes = list(map(lambda x: x['lat'], coordinates))
     longitudes = list(map(lambda x: x['lng'], coordinates))
 

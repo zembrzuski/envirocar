@@ -31,7 +31,7 @@ def retrieve_address_by_coordinate(lat, lng):
             if any("route" in s for s in type['types']):
                 routes.append(type)
 
-    return routes
+    return [routes[0]]
 
 
 
