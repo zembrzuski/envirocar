@@ -20,3 +20,7 @@ Code for importing and visualizing envirocar data.
         * dado um ponto (exemplo, porto alegre), saber quais carros passaram por ali.
         * tentar identificar quais são os usuários das rotas.s
 
+
+**Some urls**
+    http://127.0.0.1:5000/map/58efeb8d268d1b08a43de1d8
+    http://127.0.0.1:5000/map/58dd157d268d1b08a40db9b7
