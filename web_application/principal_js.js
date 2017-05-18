@@ -30,15 +30,14 @@ function initMap() {
           var vel = parseFloat(phenomenons[i]['Speed']['value']);
 
           //kol = getColorForPercentage(1-vel/vel_max);
-          kol = 'black';
 
+          kol = 'black';
           if (vel > maxspeed + maxspeed * 5/100) {
             kol = 'red';
           } else {
             kol = 'blue';
           }
-
-          if (maxspeed == 0) {
+          if (maxspeed == -1) {
             kol = 'yellow';
           }
 

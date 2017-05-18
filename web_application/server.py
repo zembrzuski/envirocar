@@ -21,4 +21,4 @@ def find_track(track):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

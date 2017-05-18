@@ -54,13 +54,12 @@ def retrieve_by_id(track):
 
     ways = region_retrieval.retrieve_region_ways(coordinates)
     trace = route_interpolator.get_route(coordinates)
-
-
-
-
-
-
     enriched_trace = enrich_trace_with_speed_limit.execute(trace, ways)
+
+    print("----")
+    print('\n'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace))))
+    print("----")
+
     coordinates = enrich_coords_with_speed_limit.enrich(enriched_trace, coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
