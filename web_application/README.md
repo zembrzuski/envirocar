@@ -24,3 +24,5 @@ Code for importing and visualizing envirocar data.
 **Some urls**
     http://127.0.0.1:5000/map/58efeb8d268d1b08a43de1d8 - alemao
     http://127.0.0.1:5000/map/58dd157d268d1b08a40db9b7 - brasileiro
+    http://127.0.0.1:5000/map/58cd2308268d1b091f16516e - brasileiro
+    http://127.0.0.1:5000/map/58d425f7268d1b091f2a160f - alemao
