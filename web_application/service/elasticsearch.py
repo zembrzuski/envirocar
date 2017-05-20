@@ -11,6 +11,13 @@ import web_application.service.speed_limit_service.openstreetmap_region_retrieva
 import web_application.service.speed_limit_service.enrich_trace_with_speed_limit as enrich_trace_with_speed_limit
 import web_application.service.speed_limit_service.enrich_coords_with_speed_limit as enrich_coords_with_speed_limit
 
+
+def scale_vector(my_vector):
+    co2_min = np.min(my_vector)
+    co2_max = np.max(my_vector)
+    return list(map(lambda x: (x-co2_min)/(co2_max-co2_min), my_vector))
+
+
 def create_dict_to_phenomenon(phenomenons, attribute):
     try:
         values = list(map(lambda x: x[attribute]['value'], phenomenons))
@@ -77,6 +84,29 @@ def retrieve_by_id(track):
         x['index'] = i
         coords_to_export.append(x)
 
+    # vou estudar agora a relacao entre consumo, rpm e co2.
+    co2_scaled = scale_vector(list(map(lambda x: x['CO2']['value'], phenomenons)))
+    rpm_scaled = scale_vector(list(map(lambda x: x['Rpm']['value'], phenomenons)))
+    consumption_scaled = scale_vector(list(map(lambda x: x['Consumption']['value'], phenomenons)))
+
+    for i in range(0, len(co2_scaled)):
+        co2_scaled[i] = {
+            'value': co2_scaled[i],
+            'index': i
+        }
+
+    for i in range(0, len(rpm_scaled)):
+        rpm_scaled[i] = {
+            'value': rpm_scaled[i],
+            'index': i
+        }
+
+    for i in range(0, len(consumption_scaled)):
+        consumption_scaled[i] = {
+            'value': consumption_scaled[i],
+            'index': i
+        }
+
     to_return = json.dumps({
         'center': {
             'lat': lat_center,
@@ -93,6 +123,9 @@ def retrieve_by_id(track):
         'tempo-fim': str(fim),
         'duracao': str(duration),
         'vm': distance_functions.compute_distance(coordinates)/(duration.seconds/60/60),
+        'co2_scaled': co2_scaled,
+        'rpm_scaled': rpm_scaled,
+        'consumption_scaled': consumption_scaled
     })
 
     r.set(track, to_return)
