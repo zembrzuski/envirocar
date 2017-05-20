@@ -1,6 +1,6 @@
 import redis
 import json
-
+import copy
 import numpy as np
 import requests
 from dateutil.parser import parse
@@ -69,13 +69,20 @@ def retrieve_by_id(track):
     fim = timestamps[-1]
     duration = timestamps[-1] - timestamps[0]
 
+    coords_to_export = list()
+    for i in range(0, len(coordinates)):
+        x = copy.deepcopy(coordinates[i])
+        x['phenomenons'] = phenomenons[i]
+        x['timestamp'] = str(timestamps[i])
+        x['index'] = i
+        coords_to_export.append(x)
+
     to_return = json.dumps({
         'center': {
             'lat': lat_center,
             'lng': lng_center
         },
-        'coordinates': coordinates,
-        'phenomenons': phenomenons,
+        'coordinates': coords_to_export,
         'vel': create_dict_to_phenomenon(phenomenons, 'Speed'),
         'co2': create_dict_to_phenomenon(phenomenons, 'CO2'),
         'rpm': create_dict_to_phenomenon(phenomenons, 'Rpm'),

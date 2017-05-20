@@ -14,9 +14,11 @@ function initMap() {
         });
 
         coordinates = resp['coordinates'];
-        phenomenons = resp['phenomenons'];
 
         vel_max = resp['vel']['max'];
+
+        console.log('vel_max: ' + vel_max);
+        console.log('vel_med: ' + resp['vm']);
 
         //var dashboard_string = createDashboardString(resp);
         //console.log(dashboard_string);
@@ -27,7 +29,7 @@ function initMap() {
           b = coordinates[i+1];
 
           var maxspeed = parseFloat(coordinates[i]['trace']['maxspeed']);
-          var vel = parseFloat(phenomenons[i]['Speed']['value']);
+          var vel = parseFloat(coordinates[i]['phenomenons']['Speed']['value']);
 
           //kol = getColorForPercentage(1-vel/vel_max);
 
@@ -71,25 +73,7 @@ function initMap() {
 
 
 
-        var data = [{
-            "xx": "202",
-            "year": "2000"
-        }, {
-            "xx": "215",
-            "year": "2001"
-        }, {
-            "xx": "179",
-            "year": "2002"
-        }, {
-            "xx": "199",
-            "year": "2003"
-        }, {
-            "xx": "134",
-            "year": "2003"
-        }, {
-            "xx": "176",
-            "year": "2010"
-        }];
+        
 
         var vis = d3.select("#visualisation"),
             WIDTH = 500,
@@ -100,8 +84,8 @@ function initMap() {
                 bottom: 20,
                 left: 50
             },
-            xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([2000,2010]),
-            yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([134,215]),
+            xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([0, 500]),
+            yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,100]),
             xAxis = d3.svg.axis().scale(xScale),
             yAxis = d3.svg.axis().scale(yScale);
 
@@ -119,16 +103,16 @@ function initMap() {
 
           var lineGen = d3.svg.line()
               .x(function(d) {
-                return xScale(d.year);
+                return xScale(d.index);
               })
               .y(function(d) {
-                return yScale(d.xx);
+                return yScale(d.phenomenons.Speed.value);
               })
               .interpolate("basis");;
 
 
             vis.append('svg:path')
-              .attr('d', lineGen(data))
+              .attr('d', lineGen(coordinates))
               .attr('stroke', 'green')
               .attr('stroke-width', 2)
               .attr('fill', 'none');
