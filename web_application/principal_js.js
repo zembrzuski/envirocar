@@ -20,9 +20,10 @@ function initMap() {
         console.log('vel_max: ' + vel_max);
         console.log('vel_med: ' + resp['vm']);
 
-        //var dashboard_string = createDashboardString(resp);
-        //console.log(dashboard_string);
-        //$("div.main-dashboard").html(dashboard_string);
+        var dashboard_string = createDashboardString(resp);
+        console.log(dashboard_string);
+        $("div.dashboard-text").html(dashboard_string);
+        $("#dashboard-rota").html(resp['all_streets']);
 
         for (i = 0 ; i < coordinates.length-1; i++) {
           a = coordinates[i];

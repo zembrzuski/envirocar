@@ -10,7 +10,6 @@
     <script src="http://127.0.0.1:5000/get_file/map_styles.js"></script>
     <script src="http://127.0.0.1:5000/get_file/speed.js"></script>
     <script src="http://127.0.0.1:5000/get_file/other_graphic.js"></script>
-    <script src="http://127.0.0.1:5000/get_file/principal_js.js"></script>
 
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -38,7 +37,7 @@
       .main-dashboard {
         background-color: white;
         font-size: 13px;
-        color: #ffcc00;
+        color: #565656;
         padding: 5px;
       }
 
@@ -68,8 +67,26 @@
         <tr>
           <td>
             <div class="main-dashboard">
-              <svg id="visualisation" width="100%" height="200"></svg>
-              <svg id="visualisation2" width="100%" height="500"></svg>
+              <div class="dashboard-navigation">
+                <button class="dashboard-button" id="dashboard-texto-button">
+                  textos
+                </button>
+
+                <button class="dashboard-button" id="dashboard-graficos-button">
+                  graficos
+                </button>
+                <button class="dashboard-button" id="dashboard-rota-button">
+                  rota
+                </button>
+              </div>
+              <div class="dashboard-text" id="dashboard-text">
+              </div>
+              <div class="dashboard-rota" id="dashboard-rota">
+              </div>
+              <div class="charts" id="dashboard-charts">
+                <svg id="visualisation" width="100%" height="200"></svg>
+                <svg id="visualisation2" width="100%" height="500"></svg>
+              </div>
             </div>
           </td>
           <td></td>
@@ -78,6 +95,8 @@
     </div>
 
     <script src="http://127.0.0.1:5000/get_file/jquery.js"></script>
+    <script src="http://127.0.0.1:5000/get_file/dom_js.js"></script>
+    <script src="http://127.0.0.1:5000/get_file/principal_js.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&callback=initMap" async defer></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDehTfquJd2bxKy3kHRbZ-Ml23aP4YZfd8&libraries=drawing"></script>

@@ -1,7 +1,7 @@
 function plot_speed_limit2(first, second) {
 
   var vis = d3.select("#visualisation2"),
-      WIDTH = 500,
+      WIDTH = 600,
       HEIGHT = 200,
       MARGINS = {
           top: 20,

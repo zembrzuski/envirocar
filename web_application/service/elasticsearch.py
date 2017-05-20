@@ -65,6 +65,7 @@ def retrieve_by_id(track):
 
     print("----")
     print('\n'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace))))
+    all_streets = '<br/>'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace)))
     print("----")
 
     coordinates = enrich_coords_with_speed_limit.enrich(enriched_trace, coordinates)
@@ -125,7 +126,8 @@ def retrieve_by_id(track):
         'vm': distance_functions.compute_distance(coordinates)/(duration.seconds/60/60),
         'co2_scaled': co2_scaled,
         'rpm_scaled': rpm_scaled,
-        'consumption_scaled': consumption_scaled
+        'consumption_scaled': consumption_scaled,
+        'all_streets': all_streets
     })
 
     r.set(track, to_return)
