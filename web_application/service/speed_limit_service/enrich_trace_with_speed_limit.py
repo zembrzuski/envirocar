@@ -24,7 +24,7 @@ def find_ways_for_trace(trace, ways):
 def try_to_know_limit_with_other_data(possible_ways):
     for x in possible_ways:
         print(x)
-    return -1
+    return 0
 
 
 def discover_maxspeed_for_way(possible_ways):

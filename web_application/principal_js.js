@@ -39,7 +39,7 @@ function initMap() {
           } else {
             kol = 'blue';
           }
-          if (maxspeed == -1) {
+          if (maxspeed == 0) {
             kol = 'yellow';
           }
 
@@ -101,7 +101,7 @@ function initMap() {
               .attr("transform", "translate(" + (MARGINS.left) + ",0)")
               .call(yAxis);
 
-          var lineGen = d3.svg.line()
+          var speed = d3.svg.line()
               .x(function(d) {
                 return xScale(d.index);
               })
@@ -111,11 +111,27 @@ function initMap() {
               .interpolate("basis");;
 
 
+          var maxSpeed = d3.svg.line()
+              .x(function(d) {
+                return xScale(d.index);
+              })
+              .y(function(d) {
+                return yScale(d.trace.maxspeed);
+              })
+              .interpolate("basis");;
+
             vis.append('svg:path')
-              .attr('d', lineGen(coordinates))
+              .attr('d', speed(coordinates))
               .attr('stroke', 'green')
               .attr('stroke-width', 2)
               .attr('fill', 'none');
+
+            vis.append('svg:path')
+              .attr('d', maxSpeed(coordinates))
+              .attr('stroke', 'blue')
+              .attr('stroke-width', 2)
+              .attr('fill', 'none');
+
 
           vis.append("svg:g")
               .attr("class","axis")
