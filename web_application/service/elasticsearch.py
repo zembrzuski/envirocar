@@ -42,7 +42,7 @@ def create_dict_to_phenomenon(phenomenons, attribute):
 
 
 def retrieve_by_id(track):
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    r = redis.StrictRedis(host='0.0.0.0', port=6379, db=0)
     cached_payload = r.get(track)
 
     #if cached_payload:
@@ -62,11 +62,7 @@ def retrieve_by_id(track):
     ways = region_retrieval.retrieve_region_ways(coordinates)
     trace = route_interpolator.get_route(coordinates)
     enriched_trace = enrich_trace_with_speed_limit.execute(trace, ways)
-
-    print("----")
-    print('\n'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace))))
     all_streets = '<br/>'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace)))
-    print("----")
 
     coordinates = enrich_coords_with_speed_limit.enrich(enriched_trace, coordinates)
 

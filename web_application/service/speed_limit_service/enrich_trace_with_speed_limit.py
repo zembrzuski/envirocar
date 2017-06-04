@@ -1,6 +1,7 @@
 import numpy as np
 import copy
 from difflib import SequenceMatcher
+import web_application.service.speed_limit_service.discover_by_street_type.discover_by_street_type as discover_by_street_type
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -21,17 +22,13 @@ def find_ways_for_trace(trace, ways):
     return possible_ways
 
 
-def try_to_know_limit_with_other_data(possible_ways):
-    for x in possible_ways:
-        print(x)
-    return 0
 
 
 def discover_maxspeed_for_way(possible_ways):
     maxspeeds = list(map(lambda x: float(x['maxspeed']), (filter(lambda x: 'maxspeed' in x, possible_ways))))
 
     if len(maxspeeds) == 0:
-        return try_to_know_limit_with_other_data(possible_ways)
+        return discover_by_street_type.try_to_know_limit_with_other_data(possible_ways)
 
     mean = np.mean(maxspeeds)
     if (mean != maxspeeds[0]):

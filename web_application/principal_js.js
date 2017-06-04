@@ -32,7 +32,7 @@ function initMap() {
           var maxspeed = parseFloat(coordinates[i]['trace']['maxspeed']);
           var vel = parseFloat(coordinates[i]['phenomenons']['Speed']['value']);
 
-          //kol = getColorForPercentage(1-vel/vel_max);
+          kol = getColorForPercentage(1-vel/vel_max);
 
           kol = 'black';
           if (vel > maxspeed + maxspeed * 5/100) {
