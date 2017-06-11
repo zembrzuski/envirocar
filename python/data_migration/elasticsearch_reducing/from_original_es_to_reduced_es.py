@@ -15,10 +15,10 @@ def compute_avg(attribute, features):
     }
 
 
-def reduce_a_document(doc_id):
-    resp = requests.get('http://192.168.0.13:9200/envirocar/group/{doc_id}'.format(doc_id=doc_id)).json()
+def reduce_a_document(document):
+    document_id = document['_id']
 
-    document_id = resp['_id']
+    resp = document
 
     init_timestamp = resp['_source']['features'][0]['properties']['time']
     finish_timestamp = resp['_source']['features'][-1]['properties']['time']
@@ -41,7 +41,7 @@ def reduce_a_document(doc_id):
     }
 
     status_code = requests.post(
-        'http://192.168.0.13:9200/envirocar_reduced/group/{doc_id}'.format(doc_id=doc_id),
+        'http://192.168.0.13:9200/envirocar_reduced/group/{doc_id}'.format(doc_id=document_id),
         json=reduced_document
     ).status_code
 
@@ -49,8 +49,3 @@ def reduce_a_document(doc_id):
         return 0
 
     return -1
-
-
-
-if __name__ == '__main__':
-    print(reduce_a_document('59316569268d1b08a4abee8e'))
