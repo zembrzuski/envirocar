@@ -9,7 +9,7 @@ def compute_avg(attribute, features):
     filtered = list(filter(lambda feature: attribute in feature['properties']['phenomenons'], features))
     all_values = list(map(lambda feature: feature['properties']['phenomenons'][attribute]['value'], filtered))
     mean = float(sum(all_values)) / len(all_values)
-    sd = math.sqrt(float(sum(list(map(lambda x: (x-mean)**2, all_values))))/len(all_values))
+    sd = math.sqrt(float(sum(list(map(lambda x: (x - mean) ** 2, all_values)))) / len(all_values))
 
     return {
         'mean': mean,
@@ -45,7 +45,7 @@ def reduce_a_document_and_persist_it(document):
     }
 
     status_code = requests.post(
-        'http://192.168.0.13:9200/envirocar_reduced/group/{doc_id}'.format(doc_id=document_id),
+        'http://192.168.0.13:9200/envirocar_reduced_2/group/{doc_id}'.format(doc_id=document_id),
         json=reduced_document
     ).status_code
 
@@ -57,13 +57,12 @@ def reduce_a_document_and_persist_it(document):
     return -1
 
 
-
-def query_a_page(fromm):
-    url = 'http://{host}:9200/envirocar/group/_search'.format(host=HOST)
+def query_a_page(scroll_id):
+    url = 'http://{host}:9200/_search/scroll'.format(host=HOST)
 
     query = {
-        "from": fromm,
-        "size": 20
+        # "scroll": "2m",
+        "scroll_id": scroll_id
     }
 
     response = requests.post(url, json=query).json()
@@ -76,8 +75,28 @@ def query_a_page(fromm):
     print("foooi.")
 
 
-if __name__ == '__main__':
-    for i in range(0, 1500):
-        print("i: {}".format(i))
-        query_a_page(i*10)
+def start_scrolling():
+    url = 'http://{host}:9200/envirocar/group/_search?scroll=2m'.format(host=HOST)
 
+    query = {
+        "size": 30,
+        "sort": [
+            "_doc"
+        ]
+    }
+
+    response = requests.post(url, json=query).json()
+
+    return response['_scroll_id']
+
+
+if __name__ == '__main__':
+
+    scroll_id = start_scrolling()
+
+    while True:
+        scroll_id = query_a_page(scroll_id)
+
+        if not scroll_id:
+            print("finished")
+            break
