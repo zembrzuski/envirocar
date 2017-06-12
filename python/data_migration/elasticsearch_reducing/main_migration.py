@@ -8,13 +8,13 @@ HOST = '192.168.0.13'
 def compute_avg(attribute, features):
     filtered = list(filter(lambda feature: attribute in feature['properties']['phenomenons'], features))
     all_values = list(map(lambda feature: feature['properties']['phenomenons'][attribute]['value'], filtered))
-    mean = float(sum(all_values)) / len(all_values)
-    sd = math.sqrt(float(sum(list(map(lambda x: (x - mean) ** 2, all_values)))) / len(all_values))
+    mean = float(sum(all_values)) / len(all_values) if len(all_values) > 0 else 0
+    sd = math.sqrt(float(sum(list(map(lambda x: (x - mean) ** 2, all_values)))) / len(all_values)) if len(all_values) > 0 else 0
 
     return {
         'mean': mean,
         'sd': sd,
-        'unit': filtered[0]['properties']['phenomenons'][attribute]['unit']
+        'unit': filtered[0]['properties']['phenomenons'][attribute]['unit'] if len(all_values) > 0 else 'N/A'
     }
 
 
@@ -61,7 +61,7 @@ def query_a_page(scroll_id):
     url = 'http://{host}:9200/_search/scroll'.format(host=HOST)
 
     query = {
-        # "scroll": "2m",
+        "scroll": "2m",
         "scroll_id": scroll_id
     }
 
@@ -95,8 +95,4 @@ if __name__ == '__main__':
     scroll_id = start_scrolling()
 
     while True:
-        scroll_id = query_a_page(scroll_id)
-
-        if not scroll_id:
-            print("finished")
-            break
+        query_a_page(scroll_id)
