@@ -32,18 +32,32 @@ def compute_avg(attribute, features):
         'unit': filtered[0]['properties']['phenomenons'][attribute]['unit'] if len(all_values) > 0 else 'N/A'
     }
 
+def create_five_points(coordinates):
+    p0 = 0
+    p1 = int(len(coordinates) * 1/4)
+    p2 = int(len(coordinates) * 2/4)
+    p3 = int(len(coordinates) * 3/4)
+    p4 = -1
+
+    return [
+        coordinates[p0],
+        coordinates[p1],
+        coordinates[p2],
+        coordinates[p3],
+        coordinates[p4]
+    ]
+
+
+
 
 def reduce_a_document_and_persist_it(document):
     document_id = document['_id']
 
-    found = requests.get('http://192.168.0.13:9200/envirocar_reduced_2/group/{doc_id}'.format(doc_id=document_id)).json()['found']
+    found = requests.get('http://192.168.0.13:9200/envirocar_reduced_3/group/{doc_id}'.format(doc_id=document_id)).json().get('found')
 
     if found:
         print("skipping: {}".format(document_id))
         return 0
-
-
-
 
     print("trying to import: {}".format(document_id))
 
@@ -69,19 +83,12 @@ def reduce_a_document_and_persist_it(document):
             'duration_seconds': (parse(finish_timestamp) - parse(init_timestamp)).seconds,
             'total_distance': compute_distance(coordinates),
             'linha_reta_distance': compute_distance([coordinates[0], coordinates[-1]]),
-            'init_point': {
-                'type': 'point',
-                'coordinates': coordinates[0]
-            },
-            'finish_point': {
-                'type': 'point',
-                'coordinates': coordinates[-1]
-            }
+            'five_points': create_five_points(coordinates)
         }
     }
 
     status_code = requests.post(
-        'http://192.168.0.13:9200/envirocar_reduced_2/group/{doc_id}'.format(doc_id=document_id),
+        'http://192.168.0.13:9200/envirocar_reduced_3/group/{doc_id}'.format(doc_id=document_id),
         json=reduced_document
     ).status_code
 
