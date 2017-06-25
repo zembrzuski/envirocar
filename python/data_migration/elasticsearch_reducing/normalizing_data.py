@@ -67,26 +67,14 @@ stats_for_normalization = {
 }
 
 
-
-# feature_to_normalize == co2
-# feature_stats_fireld == co2_stats
-def do_normalization(rsp, feature_to_normalize, feature_stats_field):
-    return (rsp['_source']['features'][feature_to_normalize]['mean'] - stats_for_normalization[feature_stats_field]['min']) / (stats_for_normalization[feature_stats_field]['max'] - stats_for_normalization[feature_stats_field]['min'])
-
-
-def do_normalization_special_case(rsp, feature_to_normalize, feature_stats_field):
-    return (rsp['_source']['features'][feature_to_normalize] - stats_for_normalization[feature_stats_field]['min']) / (stats_for_normalization[feature_stats_field]['max'] - stats_for_normalization[feature_stats_field]['min'])
-
-
-def simple_request():
-    rsp = requests.get('http://192.168.0.13:9200/envirocar_reduced_3/group/59084a4e268d1b08a47bb169').json()
-
+def compute_normalized_fields(rsp):
     co2_normalized = do_normalization(rsp, 'co2', 'co2_stats')
     rpm_normalized = do_normalization(rsp, 'rpm', 'rpm_stats')
     consumption_normalized = do_normalization(rsp, 'consumption', 'consumption_stats')
     speed_normalized = do_normalization(rsp, 'speed', 'speed_stats')
 
-    linha_reta_distancce_normalized = do_normalization_special_case(rsp, 'linha_reta_distance', 'linha_reta_distance_stats')
+    linha_reta_distancce_normalized = do_normalization_special_case(rsp, 'linha_reta_distance',
+                                                                    'linha_reta_distance_stats')
     duration_normalized = do_normalization_special_case(rsp, 'duration_seconds', 'duration_stats')
     total_distance_normalized = do_normalization_special_case(rsp, 'total_distance', 'total_distance_stats')
 
@@ -105,11 +93,27 @@ def simple_request():
     new_fields_to_post['features']['total_distance_normalized'] = total_distance_normalized
     new_fields_to_post['features']['duration_seconds_normalized_normalized'] = duration_normalized
 
-    # do the update now.
-
     to_update = {
         'doc': new_fields_to_post
     }
+
+    return to_update
+
+
+# feature_to_normalize == co2
+# feature_stats_fireld == co2_stats
+def do_normalization(rsp, feature_to_normalize, feature_stats_field):
+    return (rsp['_source']['features'][feature_to_normalize]['mean'] - stats_for_normalization[feature_stats_field]['min']) / (stats_for_normalization[feature_stats_field]['max'] - stats_for_normalization[feature_stats_field]['min'])
+
+
+def do_normalization_special_case(rsp, feature_to_normalize, feature_stats_field):
+    return (rsp['_source']['features'][feature_to_normalize] - stats_for_normalization[feature_stats_field]['min']) / (stats_for_normalization[feature_stats_field]['max'] - stats_for_normalization[feature_stats_field]['min'])
+
+
+def simple_request():
+    rsp = requests.get('http://192.168.0.13:9200/envirocar_reduced_3/group/59084a4e268d1b08a47bb169').json()
+
+    to_update = compute_normalized_fields(rsp)
 
     post_resp = requests.post('http://192.168.0.13:9200/envirocar_reduced_3/group/59084a4e268d1b08a47bb169/_update', json=to_update)
     print("oi")
@@ -118,3 +122,5 @@ def simple_request():
 if __name__ == '__main__':
     simple_request()
     print("oi")
+
+
