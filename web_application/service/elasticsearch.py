@@ -49,7 +49,7 @@ def retrieve_by_id(track):
     #    print('returning cached info')
     #    return cached_payload
 
-    resp = requests.get('http://localhost:9200/envirocar/group/{}'.format(track))
+    resp = requests.get('http://192.168.0.13:9200/envirocar/group/{}'.format(track))
     loaded = json.loads(resp.content.decode('utf-8'))
 
     features = loaded['_source']['features']
@@ -59,12 +59,12 @@ def retrieve_by_id(track):
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
-    ways = region_retrieval.retrieve_region_ways(coordinates)
-    trace = route_interpolator.get_route(coordinates)
-    enriched_trace = enrich_trace_with_speed_limit.execute(trace, ways)
-    all_streets = '<br/>'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace)))
+    #ways = region_retrieval.retrieve_region_ways(coordinates)
+    #trace = route_interpolator.get_route(coordinates)
+    #enriched_trace = enrich_trace_with_speed_limit.execute(trace, ways)
+    #all_streets = '<br/>'.join(list(map(lambda x: x['long_name'] + " - " + str(x['maxspeed']), enriched_trace)))
 
-    coordinates = enrich_coords_with_speed_limit.enrich(enriched_trace, coordinates)
+    #coordinates = enrich_coords_with_speed_limit.enrich(enriched_trace, coordinates)
 
     lat_center = np.mean(list(map(lambda x: x[1], coords)))
     lng_center = np.mean(list(map(lambda x: x[0], coords)))
@@ -123,7 +123,7 @@ def retrieve_by_id(track):
         'co2_scaled': co2_scaled,
         'rpm_scaled': rpm_scaled,
         'consumption_scaled': consumption_scaled,
-        'all_streets': all_streets
+        #'all_streets': all_streets
     })
 
     r.set(track, to_return)
