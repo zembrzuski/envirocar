@@ -53,16 +53,16 @@ def do_the_query(top_left_lat, top_left_long, bottom_rigth_lat, bottom_rigth_lon
 
 
 # brasil
-# do_the_query(5.24, -69, -31, 30)
+#do_the_query(5.24, -69, -31, 30)
 
 # australia
-do_the_query(6.4, 102, -47, 165)
+#do_the_query(6.4, 102, -47, 165)
 
 # india
 #do_the_query(43, 46, 6.4, 102)
 
 
 # estados unidos
-#do_the_query(49.3, -125, 24.6, -57)
+do_the_query(49.3, -125, 24.6, -57)
 
 print("deu")

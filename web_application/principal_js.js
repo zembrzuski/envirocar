@@ -9,9 +9,9 @@ function plota(track_id, instantiate_map) {
         if (instantiate_map) {
             map = new google.maps.Map(document.getElementById('map'), {
               center: resp['center'],
-              zoom: 13,
-              mapTypeId: 'terrain',
-              styles: map_styles
+              zoom: 8,
+              mapTypeId: 'terrain'
+              //, styles: map_styles
             });
 
             return;
@@ -32,14 +32,15 @@ function plota(track_id, instantiate_map) {
 
           var vel = parseFloat(coordinates[i]['phenomenons']['GPS Speed']['value']);
 
-          kol = getColorForPercentage(1-vel/vel_max);
+          // kol = getColorForPercentage(1-vel/vel_max);
+          kol = 'black';
 
           var flightPath_1 = new google.maps.Polyline({
             path: [a, b],
             geodesic: true,
             strokeColor: kol,
-            strokeOpacity: 1.0,
-            strokeWeight: 4
+            strokeOpacity: 0.1,
+            strokeWeight: 2
           });
 
           flightPath_1.setMap(map);
