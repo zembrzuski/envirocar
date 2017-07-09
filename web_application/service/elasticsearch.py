@@ -57,6 +57,7 @@ def retrieve_by_id(track):
     coords = list(map(lambda x: x['geometry']['coordinates'], features))
     coordinates = list(map(lambda x: {'lng': x[0], 'lat': x[1]}, coords))
     phenomenons = list(map(lambda x: x['properties']['phenomenons'], features))
+
     timestamps = list(map(lambda x: parse(x['properties']['time']), features))
 
     #ways = region_retrieval.retrieve_region_ways(coordinates)
@@ -82,27 +83,28 @@ def retrieve_by_id(track):
         coords_to_export.append(x)
 
     # vou estudar agora a relacao entre consumo, rpm e co2.
-    co2_scaled = scale_vector(list(map(lambda x: x['CO2']['value'], phenomenons)))
-    rpm_scaled = scale_vector(list(map(lambda x: x['Rpm']['value'], phenomenons)))
-    consumption_scaled = scale_vector(list(map(lambda x: x['Consumption']['value'], phenomenons)))
 
-    for i in range(0, len(co2_scaled)):
-        co2_scaled[i] = {
-            'value': co2_scaled[i],
-            'index': i
-        }
+    #co2_scaled = scale_vector(list(map(lambda x: x['CO2']['value'], phenomenons)))
+    #rpm_scaled = scale_vector(list(map(lambda x: x['Rpm']['value'], phenomenons)))
+    #consumption_scaled = scale_vector(list(map(lambda x: x['Consumption']['value'], phenomenons)))
 
-    for i in range(0, len(rpm_scaled)):
-        rpm_scaled[i] = {
-            'value': rpm_scaled[i],
-            'index': i
-        }
+    # for i in range(0, len(co2_scaled)):
+    #     co2_scaled[i] = {
+    #         'value': co2_scaled[i],
+    #         'index': i
+    #     }
 
-    for i in range(0, len(consumption_scaled)):
-        consumption_scaled[i] = {
-            'value': consumption_scaled[i],
-            'index': i
-        }
+    # for i in range(0, len(rpm_scaled)):
+    #     rpm_scaled[i] = {
+    #         'value': rpm_scaled[i],
+    #         'index': i
+    #     }
+
+    # for i in range(0, len(consumption_scaled)):
+    #     consumption_scaled[i] = {
+    #         'value': consumption_scaled[i],
+    #         'index': i
+    #     }
 
     to_return = json.dumps({
         'center': {
@@ -110,7 +112,7 @@ def retrieve_by_id(track):
             'lng': lng_center
         },
         'coordinates': coords_to_export,
-        'vel': create_dict_to_phenomenon(phenomenons, 'Speed'),
+        'vel': create_dict_to_phenomenon(phenomenons, 'GPS Speed'),
         'co2': create_dict_to_phenomenon(phenomenons, 'CO2'),
         'rpm': create_dict_to_phenomenon(phenomenons, 'Rpm'),
         'engine-load': create_dict_to_phenomenon(phenomenons, 'Engine Load'),
@@ -120,11 +122,13 @@ def retrieve_by_id(track):
         'tempo-fim': str(fim),
         'duracao': str(duration),
         'vm': distance_functions.compute_distance(coordinates)/(duration.seconds/60/60),
-        'co2_scaled': co2_scaled,
-        'rpm_scaled': rpm_scaled,
-        'consumption_scaled': consumption_scaled,
+        # 'co2_scaled': co2_scaled,
+        # 'rpm_scaled': rpm_scaled,
+        # 'consumption_scaled': consumption_scaled,
         #'all_streets': all_streets
     })
+
+    json.loads(to_return)
 
     r.set(track, to_return)
     return to_return

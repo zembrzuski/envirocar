@@ -30,7 +30,7 @@ function plota(track_id, instantiate_map) {
           a = coordinates[i];
           b = coordinates[i+1];
 
-          var vel = parseFloat(coordinates[i]['phenomenons']['Speed']['value']);
+          var vel = parseFloat(coordinates[i]['phenomenons']['GPS Speed']['value']);
 
           kol = getColorForPercentage(1-vel/vel_max);
 
